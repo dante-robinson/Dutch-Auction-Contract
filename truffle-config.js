@@ -11,19 +11,19 @@ module.exports = {
       port: 8545, // Standard Ethereum port (default: none)
       network_id: "*", // Any network (default: none)
     },
-    mumbai: {
+    rinkeby: {
       provider: () => {
         return new HDWalletProvider(
           privateKey,
-          `https://polygon-mumbai.g.alchemy.com/v2/${process.env.ALCHEMY_API}`
+          `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ALCHEMY_API}`
         );
       },
-      network_id: 80001,
+      network_id: 4,
     },
   },
   compilers: {
     solc: {
-      version: "^0.8.12",
+      version: "0.8.12",
       enabled: true,
       runs: 200000,
     },

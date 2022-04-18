@@ -21,8 +21,7 @@ contract WTIAAuction {
 
   Auction auction;
 
-  /* ID would be passed through the UI or could be kept track adding a sperate variable
-  _endDate would be passed through UI as the time in seconds to be directly added to
+  /* _endDate would be passed through UI as the time in seconds to be directly added to
   current time an example of this would be 3600 for 1 Hour. Tokens need to be approved
   before calling createAuction(). */
 
