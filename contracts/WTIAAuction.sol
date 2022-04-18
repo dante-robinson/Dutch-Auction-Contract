@@ -46,8 +46,10 @@ contract WTIAAuction {
     uint256 currentTime = uint256(block.timestamp); // Current Time
     uint256 timePassed = uint256(currentTime.sub(startDate)); // Time in seconds since
     uint256 priceDecreased = uint256(slope.mul(timePassed));
-    uint256 price = uint256(startPrice.sub(priceDecreased));
-    return uint256(price);
+    int256 price = int256(startPrice.sub(priceDecreased));
+    if (price < 0){
+      return 0;
+    } else return uint256(price);
   }
 
   // Pays out the buyer instantly and send the ether to the creator
@@ -58,5 +60,14 @@ contract WTIAAuction {
     require(success, "Transaction failed.");
     token.approve(address(this), token.balanceOf(address(this)));
     token.transferFrom(address(this), msg.sender, token.balanceOf(address(this)));
+  }
+
+  // Only can be called by creator and if the price is 0 meaning ended
+  function expired() public {
+    require(msg.sender == auction.creator);
+    require(getPrice() == 0);
+    token.approve(address(this), token.balanceOf(address(this)));
+    // Trasnfer to auction.creator instead of msg.sender incase of an exploit
+    token.transferFrom(address(this), auction.creator, token.balanceOf(address(this)));
   }
 }
